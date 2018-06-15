@@ -43,8 +43,13 @@ function drawArc(start, end, margin, stepWidth, antiClockwise) {
 }
 
 const lastElem = document.getElementById('last');
+const numberElem = document.getElementById('number');
 
 function drawRecamanSequence(number) {
+  number = number || 2;
+  numberElem.value = number;
+  window.location.hash = number;
+
   ctx.fillStyle = 'purple';
   ctx.fillRect(0, 0, width, height);
 
@@ -60,6 +65,3 @@ function drawRecamanSequence(number) {
     drawArc(sequence[i - 1], sequence[i], margin, stepWidth, antiClockwise);
 }
 
-const numberElem = document.getElementById('number');
-
-drawRecamanSequence(10);

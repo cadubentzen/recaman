@@ -38,11 +38,11 @@
     }
   </style>
 </head>
-<body>
+<body onload="drawRecamanSequence(window.location.hash.substring(1))">
   <canvas></canvas>
   <div id="topleft" class="dark">
     <input autofocus autocomplete="off"
-     class="dark" type="number" id="number" value="10"
+     class="dark" type="number" id="number"
      min="2" max="10000" onchange="drawRecamanSequence(this.value)" />
     <div>
       Last number: <span id="last">0</span>
