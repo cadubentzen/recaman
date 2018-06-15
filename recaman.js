@@ -14,10 +14,12 @@ function drawMiddleLine() {
   ctx.stroke();
 }
 
+let colors = [{r: 0, g: 0, b: 0}];
 let sequence = [0];
 
 function generateRecamanSequence(number) {
   if (number < sequence.length) {
+    colors.length = number;
     sequence.length = number;
     return;
   }
@@ -28,18 +30,27 @@ function generateRecamanSequence(number) {
     if (next < 0 || sequence.includes(next)) {
       next = sequence[sequence.length - 1] + hop;
     }
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    colors.push({r, g, b});
     sequence.push(next);
   }
+
+  console.log(colors);
 }
 
-function drawArc(start, end, margin, stepWidth, antiClockwise) {
+function drawArc(start, end, color, margin, stepWidth, antiClockwise) {
   const x = margin + (start + end) * stepWidth / 2;
   const radius = Math.abs(end - start) * stepWidth / 2;
 
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+  const {r, g, b} = color;
+  ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+  // ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.beginPath();
   ctx.arc(x, height / 2, radius, 0, Math.PI, antiClockwise);
-  ctx.stroke();
+  // ctx.stroke();
+  ctx.fill();
 }
 
 const lastElem = document.getElementById('last');
@@ -61,7 +72,7 @@ function drawRecamanSequence(number) {
   const margin = width / 40;
   const stepWidth = (width - 2 * margin) / (maxOfSequence + 1);
 
-  for (let i = 1, antiClockwise = false; i < sequence.length; ++i, antiClockwise = !antiClockwise)
-    drawArc(sequence[i - 1], sequence[i], margin, stepWidth, antiClockwise);
+  for (let i = sequence.length - 1, antiClockwise = (sequence.length % 2 != 0); i > 0; --i, antiClockwise = !antiClockwise)
+    drawArc(sequence[i - 1], sequence[i], colors[i - 1], margin, stepWidth, antiClockwise);
 }
 
